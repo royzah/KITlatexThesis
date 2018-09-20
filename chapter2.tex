@@ -1,0 +1,121 @@
+%-----------------------------------------------------------------------------%
+\chapter{System Model}
+%-----------------------------------------------------------------------------%
+\section{C-LV Model}
+
+The change of population's size of particular species as the result of species interaction with resources and competitors can be modeled and predicted over time by differential equations. C-LV is the most famous mathematics model of population dynamics. C-LV model describes a relationship between species competing for the shared resource.
+
+
+
+Assuming that all the parameters in the model are positive, the generalized C-LV model of $n$-species can be expressed by ordinary differential equations (ODE):
+
+\begin{equation}
+\label{kuda}
+\frac{dx_i}{dt}=r_ix_i(1-\frac{\sum_{j=1}^{n} \alpha_{ij}x_j}{K_i}),~\forall i \in \{1,2,3,...,n\},
+\end{equation}
+where $x_i(t)$ is  the population size of species $i$ at time $t$, and $r_i$ is the intrinsic growth rate in the absence of all other competing species. It should be noted that, every species cannot produce offspring without having initial population, \textit{i.e.} $x_i(0)>0,~\forall i \in \{1,2,3,...,n\}.$
+Here, $K_i$ is the maximum population of species $i$ in the absence of all other species, that is, the carrying capacity. Moreover, $\alpha_{ij}$ denotes effect of the species $j$'s population on the growth of species $i$. Note that $\alpha_{ii}$ denotes the effect of species $i$'s population on the growth of its own species. In this thesis, $\alpha_{ii}$ is denoted as $\beta_i$. 
+Through Eq.~(\ref{kuda}), it can be determined that the maximum number of species $i$ is $K_i/\beta_i$.    
+When $\beta_i > \alpha_{ij}, \forall i,j \in \{1,2,3,...,n\}~\text{and}~i \neq j $, the effect of population's size of species $i$ to its own growth is greater than the effect of species $j$ on population dynamic of species $i$. The explanations of notations that are used in this thesis are shown in Table~\ref{my-label}.
+
+\begin{table}
+	\centering
+	\caption{Notation}
+	\label{my-label}
+	\begin{tabular}{|l|c|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{Notation}} & \textbf{Definition}                                                                                            \\ \hline
+		$t$                                     & time                                                                                                           \\ \hline
+		$x_i$                                   & Number of species $i$                                                                                          \\ \hline
+		$r_i$                                   & Intrinsic growth rate of species $i$                                                                           \\ \hline
+		$K$                                     & Capacity                                                                                                       \\ \hline
+		$\alpha_{ij}$                           & \begin{tabular}[c]{@{}c@{}}effect of the species $j$'s population \\ on the growth of species $i$\end{tabular} \\ \hline
+		$\beta_i$                               & \begin{tabular}[c]{@{}c@{}}effect of the species $i$'s population \\ on the growth of its species\end{tabular} \\ \hline
+		$n$                                     & Number of species                                                                                              \\ \hline
+	\end{tabular}
+\end{table}
+
+According to analytical studies \cite{bukukodok}, the final state can be one of the following states:
+
+\begin{enumerate}
+	\item All species can coexist.
+	\item At least one species can survive, and other species become extinct.  
+\end{enumerate}
+
+Eq. (\ref{kuda}) cannot be precisely solved. However, the behavior of its solution can be calculated. Through phase plane analysis, the outcome of competition can be predicted. Based on the trajectories of the solutions, the dynamic path can be determined. 
+
+When solving a non-linear differential equation such as Eq. (\ref{kuda}), an approximate solution is needed to reduce computational complexity. Linearizing is one of an approximate method.    The equilibria are constant solutions that make the system converges. The equilibria is solutions that make $dx_i/dt = 0$ is satisfied $\forall i \in \{1,2,...,n\}$. Hence, it is better to investigate their stability through linearizing solution near the equilibria. 
+
+It is denoted that $X^* = (x_1^*, x_2^*,..., x_v^*)$ as vector of solution of $dx_i/dt = 0$. A stable solution is if every solution $X^*$, make $(x_1(t), x_2(t), ..., x_n(t)$ remain close to the equilibrium $\forall t \geq 0$. An equilibrium $X^*$ is asymptotically stable if it is stable and $(x_1(t), x_2(t), ..., x_n(t)$ converge to the equilibrium as $t \rightarrow 0$. The eigenvalues of matrix that consist of coefficients of variables of the linearized system can determine the stability. Asymptotically stable can be achieved  if only if all eigenvalues have negative real part. Brauer et al. \cite{bukukodok} said that in C-LV, the stability of the equilibrium depends on value of $\alpha$ and $\beta$.
+
+
+
+
+
+\section{Dragonfly Algorithm}
+
+The DA algorithm is inspired by static and dynamic swarming behaviors. These two swarming behaviors are very similar to the two main phases of optimization using meta-heuristics: exploration and exploitation. Dragonflies create sub-swarms and fly over different areas in a static swarm, which is the main objective of the exploration phase. In the static swarm, however, dragonflies fly in bigger swarms and along one direction, which is favorable in the exploitation phase.
+
+The behavior of swarms follows three primitive principles \cite{Mirjalili2016}: 
+
+\begin{itemize}
+	\item \textbf{Separation}\\ The static collision avoidance of the individuals from other individuals in the neighborhood.
+	\item \textbf{Alignment}\\ Velocity matching of individuals to that of other individuals in the neighborhood.
+	\item \textbf{Cohesion}\\ The tendency of individuals towards the center of the mass of the neighborhood.
+\end{itemize}
+
+The goal of any swarm is survival by finding resources and avoiding predators. Therefore, in DA there are five factors to construct a mathematical model for an individual position. Each of this factor can be modeled as follows:
+
+\begin{itemize}
+	\item \textbf{Separation}\\
+	\begin{equation}
+	S_i = - \sum_{j=1}^{N} X - X_j,
+	\end{equation}
+	where $X$ is the current position of individual, and $Xj$ is the position $j^{\text{th}}$ neighboring individual, moreover $N$ is the number of neighboring individuals.
+	\item \textbf{Alignment}\\
+	\begin{equation}
+	A_i = \frac{\sum_{j=1}^{N} V_j}{N},
+	\end{equation}
+	where $V_j$ is the velocity of $j^{\text{th}}$ neighboring individual.
+	\item \textbf{Cohesion}\\
+	\begin{equation}
+	C_i = \frac{\sum_{j=1}^{N} X_j}{N}-X.
+	\end{equation}
+	\item \textbf{Attraction to food}\\
+	\begin{equation}
+	F_i = X^+ -X,
+	\end{equation}
+	where $X^+$ is the position of the food. In DA, food position is chosen from best solutions.
+	\item \textbf{Distraction from enemy}
+	\begin{equation}
+	E_i = X^- + X,
+	\end{equation}
+	where $X^-$ is the position of the enemy. In DA, enemy position is chosen from worst solutions.
+\end{itemize} 
+
+The movement of dragonflies is constructed from these five patterns. DA is developed based on the framework of the PSO \cite{7435672, Rao2017}. In DA, each dragonflies' position represents a possible solution to optimizing group the objective, which is denoted by objective function $f(x)$. The position starts with the random initialization. The vector of position and the vector of velocity can be indicated as $X = (x_{1}, x_{2}, x_{3}, ..., x_{N})$ and $V = (v_{1}, v_{2}, v_{3}, ..., v_{N})$, respectively, where $N$ is the number of dragonflies. Then, the velocity and position of the particles are updated periodically according to following equations:
+\begin{equation}
+\label{eq1}
+V(t+1) = (sS_i + aA_i + cC_i + fF_i + eE_i) + wV(t),
+\end{equation}
+\begin{equation}
+\label{eq2}
+X(t+1) = X(t) + V(t+1),
+\end{equation}
+where $s, a, c, f, e,$ and $w$ are separation weight, alignment weight, cohesion weight, food factor, enemy factor, inertia weight respectively. To increase chance to converge to optimized values, weights are change randomly each iteration.
+
+To improve stochastic behavior, when there is no neighboring solution dragonflies fly around using a random walk (Levy flight). When this occurs, a position of dragonflies is updated using:
+\begin{equation}
+\label{dskimsegawon}
+X_{t+1}= X_t + Levy \times X_t,
+\end{equation}
+where the Levy flight is determined by \cite{Omid}:
+
+\begin{equation}
+Levy = 0.01 \times \frac{r_1 \times \sigma}{|r_2|^{\frac{1}{\beta}}},
+\end{equation}
+where $r_1, r_2$ are two random number such that $r_1, r_2 \in [0,1]$. And $\beta$ is constant where in this case $\beta = 1.5$. Moreover, $\sigma$ is determined by:
+\begin{equation}
+\sigma = \Bigg(\frac{\Gamma (1+\beta)\times \sin (\frac{\pi \beta}{2})}{\Gamma (\frac{1+\beta}{2})\times \beta \times 2^{\frac{\beta-1}{2}}}\Bigg)^{1/\beta},
+\end{equation} 
+where $\Gamma(x)=(x-1)!$.

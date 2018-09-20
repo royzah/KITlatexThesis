@@ -1,0 +1,65 @@
+\documentclass[11pt, onecolumn, oneside, final]{report}
+
+\usepackage{KITthesis}
+
+% Change Default Compile to XeLaTeX
+
+
+
+\begin{document}
+
+\include{cover}
+
+\include{coverINSIDE}
+
+\pagenumbering{gobble}
+
+\include{approval}
+
+\pagenumbering{roman}
+
+\setcounter{page}{4}
+
+\include{abstractENG}
+\include{abstractKOR}
+
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+
+\addChapter{List of Nomenclatures}
+\include{listofnomenclatures}
+
+\addChapter{Acknowledgment}
+\include{acknowledgment}
+
+\pagenumbering{arabic}
+
+
+\include{chapter1}
+
+\include{chapter2}
+
+\include{chapter3}
+
+\include{chapter4}
+
+\include{chapter5}
+
+\include{reference}
+
+%\begin{appendix}
+%	\pagenumbering{gobble}
+%	\include{appendix}
+%	%	\setcounter{page}{2}
+%\end{appendix}
+\pagenumbering{gobble}
+
+\include{theEND}
+
+
+
+\end{document}
